@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#061a33">
+
+<title>PERPET - Proof of Conversation</title>
+
+<style>
+:root{
+--blu:#061a33;
+--blu2:#0b3159;
+--oro:#d9af54;
+--oro2:#f5d98e;
+--testo:#ffffff;
+--secondario:#b9cadb;
+--verde:#6ee0ad;
+}
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:
+radial-gradient(circle at 80% 0%,#164878 0%,transparent 35%),
+linear-gradient(#0a2a4d,#041426);
+color:white;
+min-height:100vh;
+}
+
+header{
+padding:28px 20px 22px;
+background:linear-gradient(135deg,#04162b,#0e3c68);
+border-bottom:1px solid #34577a;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.moneta{
+width:58px;
+height:58px;
+border-radius:50%;
+border:2px solid var(--oro);
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:Georgia,serif;
+font-size:32px;
+font-weight:bold;
+color:var(--oro2);
+box-shadow:
+inset 0 0 0 5px rgba(217,175,84,.12),
+0 0 25px rgba(217,175,84,.2);
+}
+
+h1{
+font-family:Georgia,serif;
+color:var(--oro2);
+letter-spacing:4px;
+margin:0;
+font-size:34px;
+}
+
+.subtitle{
+color:#b7cadc;
+font-size:12px;
+letter-spacing:2px;
+margin-top:5px;
+}
+
+main{
+padding:16px;
+max-width:800px;
+margin:auto;
+}
+
+.card{
+background:linear-gradient(180deg,#0d3156,#071d36);
+border:1px solid #31577d;
+border-radius:20px;
+padding:18px;
+margin-bottom:16px;
+box-shadow:0 12px 30px rgba(0,0,0,.3);
+}
+
+h2{
+font-family:Georgia,serif;
+color:var(--oro2);
+font-size:19px;
+margin:0 0 7px;
+}
+
+.info{
+font-size:13px;
+line-height:1.5;
+color:var(--secondario);
+}
+
+.wallet{
+background:linear-gradient(135deg,#0d4071,#12609a);
+border-radius:18px;
+margin-top:14px;
+padding:18px;
+border:1px solid #3673a5;
+}
+
+.label{
+font-size:11px;
+letter-spacing:1.5px;
+color:#c4d9ec;
+}
+
+.saldo{
+font-size:43px;
+font-weight:bold;
+margin-top:6px;
+}
+
+.perpet{
+color:var(--oro2);
+font-size:14px;
+font-weight:bold;
+}
+
+button{
+width:100%;
+border:none;
+border-radius:15px;
+padding:15px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+cursor:pointer;
+}
+
+.start{
+background:linear-gradient(135deg,#d7ad52,#f3d587);
+color:#10243b;
+}
+
+.stop{
+background:#163b60;
+color:white;
+border:1px solid #35628d;
+}
+
+.mint{
+background:linear-gradient(135deg,#218660,#70dfad);
+color:#061d18;
+}
+
+button:disabled{
+opacity:.4;
+}
+
+.status{
+margin-top:14px;
+padding:12px;
+border-radius:13px;
+background:#051a31;
+border:1px solid #24496e;
+font-size:14px;
+}
+
+.dot{
+width:9px;
+height:9px;
+border-radius:50%;
+display:inline-block;
+background:#8295a9;
+margin-right:8px;
+}
+
+.live .dot{
+background:#6ee0ad;
+box-shadow:0 0 12px #6ee0ad;
+}
+
+.metriche{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-top:14px;
+}
+
+.metrica{
+background:#071e37;
+border:1px solid #244b70;
+border-radius:14px;
+padding:13px;
+}
+
+.metrica span{
+font-size:11px;
+color:#9fb7cc;
+text-transform:uppercase;
+}
+
+.metrica strong{
+display:block;
+font-size:23px;
+margin-top:5px;
+}
+
+#trascrizione{
+margin-top:14px;
+min-height:150px;
+max-height:260px;
+overflow:auto;
+background:#031428;
+border:1px solid #24476a;
+border-radius:14px;
+padding:14px;
+line-height:1.6;
+}
+
+.placeholder{
+color:#6f8aa2;
+}
+
+.bar{
+height:9px;
+margin-top:12px;
+background:#031428;
+border-radius:10px;
+overflow:hidden;
+}
+
+#qualityBar{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#55d6ff,#6ee0ad);
+transition:.3s;
+}
+
+.ricompensa{
+text-align:center;
+margin-top:18px;
+}
+
+.ricompensa .numero{
+font-size:35px;
+font-weight:bold;
+color:#6ee0ad;
+}
+
+.history{
+margin-top:12px;
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:12px;
+margin-bottom:8px;
+border-radius:12px;
+background:#061b33;
+border:1px solid #24496c;
+}
+
+.item small{
+display:block;
+color:#8ea9c1;
+margin-top:3px;
+}
+
+.gain{
+color:#6ee0ad;
+font-weight:bold;
+}
+
+.warning{
+font-size:12px;
+line-height:1.5;
+color:#ecdca7;
+background:#2a240e;
+border:1px solid #77642b;
+padding:12px;
+border-radius:12px;
+margin-top:14px;
+}
+
+footer{
+text-align:center;
+color:#708da7;
+padding:15px 20px 35px;
+font-size:11px;
+}
+
+footer b{
+color:var(--oro);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+<div class="moneta">P</div>
+
+<div>
+<h1>PERPET</h1>
+<div class="subtitle">
+PROOF OF CONVERSATION
+</div>
+</div>
+
+</div>
+</header>
+
+<main>
+
+<div class="card">
+
+<h2>Perpet Wallet</h2>
+
+<div class="info">
+La conoscenza genera valore. Parla delle tue passioni e lascia che PERPET analizzi la tua conversazione.
+</div>
+
+<div class="wallet">
+
+<div class="label">
+SALDO DISPONIBILE
+</div>
+
+<div class="saldo">
+<span id="saldo">0.000</span>
+<span class="perpet">PERPET</span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Proof of Conversation</h2>
+
+<div class="info">
+Avvia una sessione e parla liberamente. Il prototipo valuta durata, quantità di parole e varietà lessicale.
+</div>
+
+<button id="start" class="start">
+🎙 INIZIA A PARLARE
+</button>
+
+<button id="stop" class="stop" disabled>
+■ TERMINA SESSIONE
+</button>
+
+<div id="status" class="status">
+
+<span class="dot"></span>
+
+<span id="statusText">
+Pronto
+</span>
+
+</div>
+
+
+<div class="metriche">
+
+<div class="metrica">
+
+<span>Tempo</span>
+
+<strong id="tempo">
+00:00
+</strong>
+
+</div>
+
+<div class="metrica">
+
+<span>Parole</span>
+
+<strong id="parole">
+0
+</strong>
+
+</div>
+
+<div class="metrica">
+
+<span>Parole uniche</span>
+
+<strong id="uniche">
+0
+</strong>
+
+</div>
+
+<div class="metrica">
+
+<span>Qualità</span>
+
+<strong id="qualita">
+0%
+</strong>
+
+</div>
+
+</div>
+
+
+<div id="trascrizione">
+
+<span class="placeholder">
+La trascrizione della tua voce apparirà qui...
+</span>
+
+</div>
+
+
+<div class="bar">
+
+<div id="qualityBar"></div>
+
+</div>
+
+
+<div class="ricompensa">
+
+<div class="label">
+RICOMPENSA STIMATA
+</div>
+
+<div class="numero">
+
+<span id="reward">
+0.000
+</span>
+
+P
+
+</div>
+
+</div>
+
+
+<button id="mint" class="mint" disabled>
+
+GENERA PERPET
+
+</button>
+
+
+<div class="warning">
+
+Questa versione utilizza PERPET dimostrativi.
+Non rappresentano ancora una criptovaluta reale.
+La blockchain verrà integrata in una fase successiva del progetto.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Attività recenti</h2>
+
+<div id="history" class="history">
+
+<div class="info">
+Nessuna conversazione registrata.
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+
+<footer>
+
+<b>PERPET</b><br>
+
+La conoscenza genera valore.<br>
+Oligorion Protocol
+
+</footer>
+
+
+<script>
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+const startBtn =
+document.getElementById("start");
+
+const stopBtn =
+document.getElementById("stop");
+
+const mintBtn =
+document.getElementById("mint");
+
+const transcriptBox =
+document.getElementById("trascrizione");
+
+const status =
+document.getElementById("status");
+
+const statusText =
+document.getElementById("statusText");
+
+let recognition;
+
+let ascolto = false;
+
+let testoFinale = "";
+
+let testoTemporaneo = "";
+
+let secondi = 0;
+
+let timer;
+
+let reward = 0;
+
+let saldo =
+Number(localStorage.getItem("perpet_balance") || 0);
+
+let storico =
+JSON.parse(
+localStorage.getItem("perpet_history") || "[]"
+);
+
+
+document.getElementById("saldo")
+.textContent =
+saldo.toFixed(3);
+
+
+function formatTime(sec){
+
+let m =
+Math.floor(sec / 60)
+.toString()
+.padStart(2,"0");
+
+let s =
+(sec % 60)
+.toString()
+.padStart(2,"0");
+
+return m + ":" + s;
+
+}
+
+
+function paroleDaTesto(testo){
+
+return testo
+.toLowerCase()
+.replace(/[^\p{L}\p{N}'àèéìòù]/gu," ")
+.split(/\s+/)
+.filter(Boolean);
+
+}
+
+
+function aggiorna(){
+
+let testo =
+(testoFinale + " " + testoTemporaneo)
+.trim();
+
+let parole =
+paroleDaTesto(testo);
+
+let uniche =
+new Set(parole);
+
+let numeroParole =
+parole.length;
+
+let numeroUniche =
+uniche.size;
+
+let diversita =
+numeroParole
+? numeroUniche / numeroParole
+: 0;
+
+
+let scoreParole =
+Math.min(
+1,
+numeroParole / 120
+);
+
+let scoreDiversita =
+Math.min(
+1,
+diversita / 0.65
+);
+
+let scoreTempo =
+Math.min(
+1,
+secondi / 120
+);
+
+
+let qualita =
+Math.round(
+
+(scoreParole * 45) +
+
+(scoreDiversita * 40) +
+
+(scoreTempo * 15)
+
+);
+
+
+qualita =
+Math.min(
+100,
+qualita
+);
+
+
+reward =
+
+Math.min(
+
+2,
+
+(secondi / 60)
+
+*
+
+(qualita / 100)
+
+*
+
+(
+0.5 +
+Math.min(
+diversita,
+0.75
+)
+)
+
+);
+
+
+document.getElementById("parole")
+.textContent =
+numeroParole;
+
+
+document.getElementById("uniche")
+.textContent =
+numeroUniche;
+
+
+document.getElementById("qualita")
+.textContent =
+qualita + "%";
+
+
+document.getElementById("qualityBar")
+.style.width =
+qualita + "%";
+
+
+document.getElementById("reward")
+.textContent =
+reward.toFixed(3);
+
+
+mintBtn.disabled =
+ascolto ||
+numeroParole < 8 ||
+reward < 0.01;
+
+}
+
+
+function mostraTesto(){
+
+let testo =
+(testoFinale + " " + testoTemporaneo)
+.trim();
+
+if(testo){
+
+transcriptBox.textContent =
+testo;
+
+}else{
+
+transcriptBox.innerHTML =
+'<span class="placeholder">La trascrizione della tua voce apparirà qui...</span>';
+
+}
+
+aggiorna();
+
+}
+
+
+function mostraStorico(){
+
+let box =
+document.getElementById("history");
+
+if(!storico.length){
+
+box.innerHTML =
+'<div class="info">Nessuna conversazione registrata.</div>';
+
+return;
+
+}
+
+box.innerHTML = "";
+
+storico
+.slice(0,10)
+.forEach(item => {
+
+let div =
+document.createElement("div");
+
+div.className =
+"item";
+
+div.innerHTML =
+
+"<div>" +
+
+"<b>Conversazione</b>" +
+
+"<small>" +
+
+item.data +
+
+" · " +
+
+item.parole +
+
+" parole · " +
+
+item.qualita +
+
+"%</small>" +
+
+"</div>" +
+
+"<div class='gain'>+" +
+
+Number(item.reward)
+.toFixed(3) +
+
+" P</div>";
+
+box.appendChild(div);
+
+});
+
+}
+
+
+if(SpeechRecognition){
+
+recognition =
+new SpeechRecognition();
+
+recognition.lang =
+"it-IT";
+
+recognition.continuous =
+true;
+
+recognition.interimResults =
+true;
+
+
+recognition.onresult =
+function(event){
+
+testoTemporaneo = "";
+
+for(
+let i =
+event.resultIndex;
+
+i <
+event.results.length;
+
+i++
+){
+
+let testo =
+event.results[i][0]
+.transcript;
+
+if(
+event.results[i]
+.isFinal
+){
+
+testoFinale +=
+" " +
+testo;
+
+}else{
+
+testoTemporaneo +=
+" " +
+testo;
+
+}
+
+}
+
+mostraTesto();
+
+};
+
+
+recognition.onerror =
+function(event){
+
+statusText.textContent =
+"Errore microfono: " +
+event.error;
+
+ascolto = false;
+
+clearInterval(timer);
+
+startBtn.disabled =
+false;
+
+stopBtn.disabled =
+true;
+
+status.classList
+.remove("live");
+
+};
+
+
+recognition.onend =
+function(){
+
+if(ascolto){
+
+try{
+
+recognition.start();
+
+}catch(e){}
+
+}
+
+};
+
+}else{
+
+startBtn.disabled =
+true;
+
+statusText.textContent =
+"Riconoscimento vocale non disponibile.";
+
+}
+
+
+startBtn.onclick =
+function(){
+
+testoFinale = "";
+
+testoTemporaneo = "";
+
+secondi = 0;
+
+reward = 0;
+
+mostraTesto();
+
+document.getElementById("tempo")
+.textContent =
+"00:00";
+
+try{
+
+recognition.start();
+
+ascolto = true;
+
+startBtn.disabled =
+true;
+
+stopBtn.disabled =
+false;
+
+status.classList
+.add("live");
+
+statusText.textContent =
+"Ascolto in corso...";
+
+timer =
+setInterval(
+function(){
+
+secondi++;
+
+document.getElementById("tempo")
+.textContent =
+formatTime(secondi);
+
+aggiorna();
+
+},
+1000
+);
+
+}catch(e){
+
+statusText.textContent =
+"Impossibile avviare il microfono.";
+
+}
+
+};
+
+
+stopBtn.onclick =
+function(){
+
+ascolto = false;
+
+clearInterval(timer);
+
+try{
+
+recognition.stop();
+
+}catch(e){}
+
+startBtn.disabled =
+false;
+
+stopBtn.disabled =
+true;
+
+status.classList
+.remove("live");
+
+statusText.textContent =
+"Sessione terminata";
+
+testoTemporaneo = "";
+
+mostraTesto();
+
+};
+
+
+mintBtn.onclick =
+function(){
+
+if(
+ascolto ||
+reward <= 0
+)
+return;
+
+
+let parole =
+paroleDaTesto(
+testoFinale
+);
+
+
+let numeroUniche =
+new Set(parole).size;
+
+
+let diversita =
+parole.length
+? numeroUniche /
+parole.length
+: 0;
+
+
+let scoreParole =
+Math.min(
+1,
+parole.length / 120
+);
+
+
+let scoreDiversita =
+Math.min(
+1,
+diversita / 0.65
+);
+
+
+let scoreTempo =
+Math.min(
+1,
+secondi / 120
+);
+
+
+let qualita =
+Math.round(
+
+(scoreParole * 45)
+
++
+
+(scoreDiversita * 40)
+
++
+
+(scoreTempo * 15)
+
+);
+
+
+saldo += reward;
+
+
+storico.unshift({
+
+data:
+new Date()
+.toLocaleString("it-IT"),
+
+parole:
+parole.length,
+
+qualita:
+qualita,
+
+reward:
+reward
+
+});
+
+
+localStorage.setItem(
+"perpet_balance",
+saldo
+);
+
+
+localStorage.setItem(
+"perpet_history",
+JSON.stringify(storico)
+);
+
+
+document.getElementById("saldo")
+.textContent =
+saldo.toFixed(3);
+
+
+statusText.textContent =
+"Generati " +
+reward.toFixed(3) +
+" PERPET";
+
+
+reward = 0;
+
+
+document.getElementById("reward")
+.textContent =
+"0.000";
+
+
+mintBtn.disabled =
+true;
+
+
+mostraStorico();
+
+};
+
+
+mostraStorico();
+
+</script>
+
+</body>
+</html>
