@@ -1,1112 +1,1254 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#061a33">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#061a33">
+  <title>PERPET - Proof of Conversation</title>
 
-<title>PERPET - Proof of Conversation</title>
+  <style>
+    :root {
+      --bg: #061a33;
+      --bg2: #0b3159;
+      --panel: #0b2a4a;
+      --panel2: #0c3a66;
+      --gold: #e1b85a;
+      --gold2: #f2d37b;
+      --text: #f5f7fb;
+      --muted: #b9cadb;
+      --line: #2b5f89;
+      --ok: #65d28a;
+      --danger: #ff7b7b;
+    }
 
-<style>
-:root{
---blu:#061a33;
---blu2:#0b3159;
---oro:#d9af54;
---oro2:#f5d98e;
---testo:#ffffff;
---secondario:#b9cadb;
---verde:#6ee0ad;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-*{
-box-sizing:border-box;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(
+          circle at 20% 0%,
+          rgba(24, 91, 146, 0.30),
+          transparent 35%
+        ),
+        linear-gradient(
+          180deg,
+          var(--bg2),
+          var(--bg)
+        );
 
-body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:
-radial-gradient(circle at 80% 0%,#164878 0%,transparent 35%),
-linear-gradient(#0a2a4d,#041426);
-color:white;
-min-height:100vh;
-}
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    }
 
-header{
-padding:28px 20px 22px;
-background:linear-gradient(135deg,#04162b,#0e3c68);
-border-bottom:1px solid #34577a;
-}
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
 
-.logo{
-display:flex;
-align-items:center;
-gap:14px;
-}
+    header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 0 22px;
+      border-bottom: 1px solid rgba(225, 184, 90, 0.25);
+    }
 
-.moneta{
-width:58px;
-height:58px;
-border-radius:50%;
-border:2px solid var(--oro);
-display:flex;
-align-items:center;
-justify-content:center;
-font-family:Georgia,serif;
-font-size:32px;
-font-weight:bold;
-color:var(--oro2);
-box-shadow:
-inset 0 0 0 5px rgba(217,175,84,.12),
-0 0 25px rgba(217,175,84,.2);
-}
+    .coin {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
 
-h1{
-font-family:Georgia,serif;
-color:var(--oro2);
-letter-spacing:4px;
-margin:0;
-font-size:34px;
-}
+      display: grid;
+      place-items: center;
 
-.subtitle{
-color:#b7cadc;
-font-size:12px;
-letter-spacing:2px;
-margin-top:5px;
-}
+      font-family: Georgia, serif;
+      font-size: 38px;
+      font-weight: 800;
 
-main{
-padding:16px;
-max-width:800px;
-margin:auto;
-}
+      color: var(--gold2);
 
-.card{
-background:linear-gradient(180deg,#0d3156,#071d36);
-border:1px solid #31577d;
-border-radius:20px;
-padding:18px;
-margin-bottom:16px;
-box-shadow:0 12px 30px rgba(0,0,0,.3);
-}
+      box-shadow:
+        inset 0 0 0 5px rgba(225, 184, 90, 0.12);
+    }
 
-h2{
-font-family:Georgia,serif;
-color:var(--oro2);
-font-size:19px;
-margin:0 0 7px;
-}
+    h1 {
+      margin: 0;
 
-.info{
-font-size:13px;
-line-height:1.5;
-color:var(--secondario);
-}
+      font-family: Georgia, serif;
 
-.wallet{
-background:linear-gradient(135deg,#0d4071,#12609a);
-border-radius:18px;
-margin-top:14px;
-padding:18px;
-border:1px solid #3673a5;
-}
+      color: var(--gold2);
 
-.label{
-font-size:11px;
-letter-spacing:1.5px;
-color:#c4d9ec;
-}
+      letter-spacing: 0.08em;
 
-.saldo{
-font-size:43px;
-font-weight:bold;
-margin-top:6px;
-}
+      font-size: clamp(34px, 8vw, 54px);
+    }
 
-.perpet{
-color:var(--oro2);
-font-size:14px;
-font-weight:bold;
-}
+    .sub {
+      color: var(--muted);
 
-button{
-width:100%;
-border:none;
-border-radius:15px;
-padding:15px;
-font-size:16px;
-font-weight:bold;
-margin-top:12px;
-cursor:pointer;
-}
+      letter-spacing: 0.22em;
 
-.start{
-background:linear-gradient(135deg,#d7ad52,#f3d587);
-color:#10243b;
-}
+      font-size: 13px;
+    }
 
-.stop{
-background:#163b60;
-color:white;
-border:1px solid #35628d;
-}
+    .card {
+      margin-top: 20px;
 
-.mint{
-background:linear-gradient(135deg,#218660,#70dfad);
-color:#061d18;
-}
+      padding: 22px;
 
-button:disabled{
-opacity:.4;
-}
+      border: 1px solid var(--line);
+      border-radius: 24px;
 
-.status{
-margin-top:14px;
-padding:12px;
-border-radius:13px;
-background:#051a31;
-border:1px solid #24496e;
-font-size:14px;
-}
+      background:
+        linear-gradient(
+          180deg,
+          rgba(13, 55, 94, 0.92),
+          rgba(7, 34, 61, 0.94)
+        );
 
-.dot{
-width:9px;
-height:9px;
-border-radius:50%;
-display:inline-block;
-background:#8295a9;
-margin-right:8px;
-}
+      box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.18);
+    }
 
-.live .dot{
-background:#6ee0ad;
-box-shadow:0 0 12px #6ee0ad;
-}
+    h2 {
+      margin: 0 0 12px;
 
-.metriche{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin-top:14px;
-}
+      font-family: Georgia, serif;
 
-.metrica{
-background:#071e37;
-border:1px solid #244b70;
-border-radius:14px;
-padding:13px;
-}
+      color: var(--gold2);
 
-.metrica span{
-font-size:11px;
-color:#9fb7cc;
-text-transform:uppercase;
-}
+      font-size: 30px;
+    }
 
-.metrica strong{
-display:block;
-font-size:23px;
-margin-top:5px;
-}
+    p {
+      color: var(--muted);
 
-#trascrizione{
-margin-top:14px;
-min-height:150px;
-max-height:260px;
-overflow:auto;
-background:#031428;
-border:1px solid #24476a;
-border-radius:14px;
-padding:14px;
-line-height:1.6;
-}
+      line-height: 1.55;
 
-.placeholder{
-color:#6f8aa2;
-}
+      margin: 8px 0 16px;
+    }
 
-.bar{
-height:9px;
-margin-top:12px;
-background:#031428;
-border-radius:10px;
-overflow:hidden;
-}
+    .balance {
+      margin-top: 16px;
 
-#qualityBar{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#55d6ff,#6ee0ad);
-transition:.3s;
-}
+      padding: 22px;
 
-.ricompensa{
-text-align:center;
-margin-top:18px;
-}
+      border-radius: 22px;
 
-.ricompensa .numero{
-font-size:35px;
-font-weight:bold;
-color:#6ee0ad;
-}
+      background:
+        linear-gradient(
+          135deg,
+          #10679f,
+          #1d7db8
+        );
 
-.history{
-margin-top:12px;
-}
+      border:
+        1px solid rgba(255, 255, 255, 0.2);
+    }
 
-.item{
-display:flex;
-justify-content:space-between;
-gap:10px;
-padding:12px;
-margin-bottom:8px;
-border-radius:12px;
-background:#061b33;
-border:1px solid #24496c;
-}
+    .label {
+      color: #d7e6f2;
 
-.item small{
-display:block;
-color:#8ea9c1;
-margin-top:3px;
-}
+      letter-spacing: 0.15em;
 
-.gain{
-color:#6ee0ad;
-font-weight:bold;
-}
+      font-size: 12px;
 
-.warning{
-font-size:12px;
-line-height:1.5;
-color:#ecdca7;
-background:#2a240e;
-border:1px solid #77642b;
-padding:12px;
-border-radius:12px;
-margin-top:14px;
-}
+      text-transform: uppercase;
+    }
 
-footer{
-text-align:center;
-color:#708da7;
-padding:15px 20px 35px;
-font-size:11px;
-}
+    .amount {
+      display: flex;
 
-footer b{
-color:var(--oro);
-}
-</style>
+      align-items: baseline;
+
+      gap: 12px;
+
+      margin-top: 8px;
+    }
+
+    .amount strong {
+      font-size: 54px;
+
+      font-weight: 500;
+    }
+
+    .amount span {
+      color: var(--gold2);
+
+      font-weight: 800;
+    }
+
+    button {
+      width: 100%;
+
+      border: 0;
+
+      border-radius: 22px;
+
+      padding: 20px 18px;
+
+      margin-top: 14px;
+
+      font-size: 21px;
+
+      font-weight: 800;
+
+      letter-spacing: 0.02em;
+
+      cursor: pointer;
+    }
+
+    #startBtn {
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          var(--gold2)
+        );
+
+      color: #17324b;
+    }
+
+    #stopBtn {
+      background: #183f64;
+
+      color: white;
+
+      border:
+        1px solid #356991;
+    }
+
+    #stopBtn:disabled {
+      opacity: 0.45;
+    }
+
+    .status {
+      margin-top: 16px;
+
+      padding: 14px 16px;
+
+      border-radius: 16px;
+
+      background: #04192f;
+
+      border:
+        1px solid var(--line);
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+
+      border-radius: 50%;
+
+      background: #90a6bb;
+
+      flex: 0 0 auto;
+    }
+
+    .status.live .dot {
+      background: var(--ok);
+
+      box-shadow:
+        0 0 0 5px rgba(101, 210, 138, 0.12);
+    }
+
+    .grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 14px;
+
+      margin-top: 18px;
+    }
+
+    .stat {
+      padding: 18px;
+
+      border-radius: 20px;
+
+      background: #061d36;
+
+      border:
+        1px solid var(--line);
+    }
+
+    .stat .n {
+      font-size: 34px;
+
+      margin-top: 7px;
+    }
+
+    #transcript {
+      margin-top: 18px;
+
+      min-height: 140px;
+
+      padding: 18px;
+
+      border-radius: 20px;
+
+      background: #04192f;
+
+      border:
+        1px solid var(--line);
+
+      color: #e8f2fa;
+
+      white-space: pre-wrap;
+
+      line-height: 1.55;
+    }
+
+    .row {
+      display: flex;
+
+      gap: 10px;
+    }
+
+    .row button {
+      font-size: 15px;
+
+      padding: 14px;
+    }
+
+    #resetBtn {
+      background: #173a5a;
+
+      color: #dfeaf3;
+
+      border:
+        1px solid #335d7d;
+    }
+
+    .note {
+      font-size: 12px;
+
+      color: #91a8bd;
+
+      text-align: center;
+
+      margin-top: 18px;
+
+      line-height: 1.45;
+    }
+
+    @media (max-width: 520px) {
+
+      .wrap {
+        padding: 16px 12px 30px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .amount strong {
+        font-size: 46px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-<div class="logo">
-<div class="moneta">P</div>
+<div class="wrap">
 
-<div>
-<h1>PERPET</h1>
-<div class="subtitle">
-PROOF OF CONVERSATION
+  <header>
+
+    <div class="coin">
+      P
+    </div>
+
+    <div>
+
+      <h1>
+        PERPET
+      </h1>
+
+      <div class="sub">
+        PROOF OF CONVERSATION
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <section class="card">
+
+    <h2>
+      Perpet Wallet
+    </h2>
+
+    <p>
+      Parla delle tue passioni.
+      La sessione valuta durata,
+      quantità di parole
+      e varietà lessicale.
+    </p>
+
+    <div class="balance">
+
+      <div class="label">
+        Saldo disponibile
+      </div>
+
+      <div class="amount">
+
+        <strong id="balance">
+          0.000
+        </strong>
+
+        <span>
+          PERPET
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="card">
+
+    <h2>
+      Proof of Conversation
+    </h2>
+
+    <p>
+      Avvia una sessione
+      e parla liberamente.
+      Su Android l'app usa
+      il riconoscimento vocale nativo;
+      nel browser usa
+      il riconoscimento vocale
+      disponibile sul dispositivo.
+    </p>
+
+
+    <button id="startBtn">
+      🎙️ INIZIA A PARLARE
+    </button>
+
+
+    <button
+      id="stopBtn"
+      disabled
+    >
+      ■ TERMINA SESSIONE
+    </button>
+
+
+    <div
+      id="status"
+      class="status"
+    >
+
+      <span class="dot"></span>
+
+      <span id="statusText">
+        Pronto
+      </span>
+
+    </div>
+
+
+    <div class="grid">
+
+      <div class="stat">
+
+        <div class="label">
+          Tempo
+        </div>
+
+        <div
+          class="n"
+          id="time"
+        >
+          00:00
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="label">
+          Parole
+        </div>
+
+        <div
+          class="n"
+          id="words"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="label">
+          Parole uniche
+        </div>
+
+        <div
+          class="n"
+          id="unique"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="label">
+          Qualità
+        </div>
+
+        <div
+          class="n"
+          id="quality"
+        >
+          0%
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div id="transcript">
+      La trascrizione della tua voce apparirà qui…
+    </div>
+
+
+    <div class="row">
+
+      <button id="resetBtn">
+        Azzera saldo demo
+      </button>
+
+    </div>
+
+
+    <div class="note">
+
+      PERPET in questa versione
+      è un saldo dimostrativo
+      memorizzato sul dispositivo
+      e non rappresenta
+      una criptovaluta
+      con valore monetario reale.
+
+    </div>
+
+  </section>
+
 </div>
-</div>
-
-</div>
-</header>
-
-<main>
-
-<div class="card">
-
-<h2>Perpet Wallet</h2>
-
-<div class="info">
-La conoscenza genera valore. Parla delle tue passioni e lascia che PERPET analizzi la tua conversazione.
-</div>
-
-<div class="wallet">
-
-<div class="label">
-SALDO DISPONIBILE
-</div>
-
-<div class="saldo">
-<span id="saldo">0.000</span>
-<span class="perpet">PERPET</span>
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>Proof of Conversation</h2>
-
-<div class="info">
-Avvia una sessione e parla liberamente. Il prototipo valuta durata, quantità di parole e varietà lessicale.
-</div>
-
-<button id="start" class="start">
-🎙 INIZIA A PARLARE
-</button>
-
-<button id="stop" class="stop" disabled>
-■ TERMINA SESSIONE
-</button>
-
-<div id="status" class="status">
-
-<span class="dot"></span>
-
-<span id="statusText">
-Pronto
-</span>
-
-</div>
-
-
-<div class="metriche">
-
-<div class="metrica">
-
-<span>Tempo</span>
-
-<strong id="tempo">
-00:00
-</strong>
-
-</div>
-
-<div class="metrica">
-
-<span>Parole</span>
-
-<strong id="parole">
-0
-</strong>
-
-</div>
-
-<div class="metrica">
-
-<span>Parole uniche</span>
-
-<strong id="uniche">
-0
-</strong>
-
-</div>
-
-<div class="metrica">
-
-<span>Qualità</span>
-
-<strong id="qualita">
-0%
-</strong>
-
-</div>
-
-</div>
-
-
-<div id="trascrizione">
-
-<span class="placeholder">
-La trascrizione della tua voce apparirà qui...
-</span>
-
-</div>
-
-
-<div class="bar">
-
-<div id="qualityBar"></div>
-
-</div>
-
-
-<div class="ricompensa">
-
-<div class="label">
-RICOMPENSA STIMATA
-</div>
-
-<div class="numero">
-
-<span id="reward">
-0.000
-</span>
-
-P
-
-</div>
-
-</div>
-
-
-<button id="mint" class="mint" disabled>
-
-GENERA PERPET
-
-</button>
-
-
-<div class="warning">
-
-Questa versione utilizza PERPET dimostrativi.
-Non rappresentano ancora una criptovaluta reale.
-La blockchain verrà integrata in una fase successiva del progetto.
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>Attività recenti</h2>
-
-<div id="history" class="history">
-
-<div class="info">
-Nessuna conversazione registrata.
-</div>
-
-</div>
-
-</div>
-
-</main>
-
-
-<footer>
-
-<b>PERPET</b><br>
-
-La conoscenza genera valore.<br>
-Oligorion Protocol
-
-</footer>
 
 
 <script>
 
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
+(() => {
 
-const startBtn =
-document.getElementById("start");
+  const $ =
+    id =>
+      document.getElementById(id);
 
-const stopBtn =
-document.getElementById("stop");
 
-const mintBtn =
-document.getElementById("mint");
+  const startBtn =
+    $("startBtn");
 
-const transcriptBox =
-document.getElementById("trascrizione");
 
-const status =
-document.getElementById("status");
+  const stopBtn =
+    $("stopBtn");
 
-const statusText =
-document.getElementById("statusText");
 
-let recognition;
+  const status =
+    $("status");
 
-let ascolto = false;
 
-let testoFinale = "";
+  const statusText =
+    $("statusText");
 
-let testoTemporaneo = "";
 
-let secondi = 0;
+  const transcriptEl =
+    $("transcript");
 
-let timer;
 
-let reward = 0;
+  const wordsEl =
+    $("words");
 
-let saldo =
-Number(localStorage.getItem("perpet_balance") || 0);
 
-let storico =
-JSON.parse(
-localStorage.getItem("perpet_history") || "[]"
-);
+  const uniqueEl =
+    $("unique");
 
 
-document.getElementById("saldo")
-.textContent =
-saldo.toFixed(3);
+  const qualityEl =
+    $("quality");
 
 
-function formatTime(sec){
+  const timeEl =
+    $("time");
 
-let m =
-Math.floor(sec / 60)
-.toString()
-.padStart(2,"0");
 
-let s =
-(sec % 60)
-.toString()
-.padStart(2,"0");
+  const balanceEl =
+    $("balance");
 
-return m + ":" + s;
 
-}
+  let running = false;
 
 
-function paroleDaTesto(testo){
+  let startedAt = 0;
 
-return testo
-.toLowerCase()
-.replace(/[^\p{L}\p{N}'àèéìòù]/gu," ")
-.split(/\s+/)
-.filter(Boolean);
 
-}
+  let timer = null;
 
 
-function aggiorna(){
+  let finalText = "";
 
-let testo =
-(testoFinale + " " + testoTemporaneo)
-.trim();
 
-let parole =
-paroleDaTesto(testo);
+  let interimText = "";
 
-let uniche =
-new Set(parole);
 
-let numeroParole =
-parole.length;
+  let browserRecognition = null;
 
-let numeroUniche =
-uniche.size;
 
-let diversita =
-numeroParole
-? numeroUniche / numeroParole
-: 0;
+  let balance =
+    Number(
+      localStorage.getItem(
+        "perpetBalance"
+      ) || "0"
+    );
 
 
-let scoreParole =
-Math.min(
-1,
-numeroParole / 120
-);
+  function renderBalance() {
 
-let scoreDiversita =
-Math.min(
-1,
-diversita / 0.65
-);
+    balanceEl.textContent =
+      balance.toFixed(3);
 
-let scoreTempo =
-Math.min(
-1,
-secondi / 120
-);
+  }
 
 
-let qualita =
-Math.round(
+  renderBalance();
 
-(scoreParole * 45) +
 
-(scoreDiversita * 40) +
+  function setStatus(
+    text,
+    live = false
+  ) {
 
-(scoreTempo * 15)
+    statusText.textContent =
+      text;
 
-);
 
+    status.classList.toggle(
+      "live",
+      !!live
+    );
 
-qualita =
-Math.min(
-100,
-qualita
-);
+  }
 
 
-reward =
+  function normalizeWords(text) {
 
-Math.min(
+    return (
+      text
+        .toLowerCase()
+        .match(
+          /[a-zà-öø-ÿ0-9']+/gi
+        ) || []
+    ).filter(Boolean);
 
-2,
+  }
 
-(secondi / 60)
 
-*
+  function updateStats() {
 
-(qualita / 100)
+    const all =
+      (
+        finalText +
+        " " +
+        interimText
+      ).trim();
 
-*
 
-(
-0.5 +
-Math.min(
-diversita,
-0.75
-)
-)
+    const arr =
+      normalizeWords(all);
 
-);
 
+    const uniq =
+      new Set(arr);
 
-document.getElementById("parole")
-.textContent =
-numeroParole;
 
+    wordsEl.textContent =
+      arr.length;
 
-document.getElementById("uniche")
-.textContent =
-numeroUniche;
 
+    uniqueEl.textContent =
+      uniq.size;
 
-document.getElementById("qualita")
-.textContent =
-qualita + "%";
 
+    const lexical =
+      arr.length
+        ? uniq.size / arr.length
+        : 0;
 
-document.getElementById("qualityBar")
-.style.width =
-qualita + "%";
 
+    const quality =
+      Math.min(
+        100,
+        Math.round(
+          lexical * 70 +
+          (
+            Math.min(
+              arr.length,
+              120
+            ) / 120
+          ) * 30
+        )
+      );
 
-document.getElementById("reward")
-.textContent =
-reward.toFixed(3);
 
+    qualityEl.textContent =
+      quality + "%";
 
-mintBtn.disabled =
-ascolto ||
-numeroParole < 8 ||
-reward < 0.01;
 
-}
+    transcriptEl.textContent =
+      all ||
+      "La trascrizione della tua voce apparirà qui…";
 
+  }
 
-function mostraTesto(){
 
-let testo =
-(testoFinale + " " + testoTemporaneo)
-.trim();
+  function updateTime() {
 
-if(testo){
+    if (!running) {
+      return;
+    }
 
-transcriptBox.textContent =
-testo;
 
-}else{
+    const seconds =
+      Math.floor(
+        (
+          Date.now() -
+          startedAt
+        ) / 1000
+      );
 
-transcriptBox.innerHTML =
-'<span class="placeholder">La trascrizione della tua voce apparirà qui...</span>';
 
-}
+    const minutes =
+      Math.floor(
+        seconds / 60
+      );
 
-aggiorna();
 
-}
+    const remaining =
+      seconds % 60;
 
 
-function mostraStorico(){
+    timeEl.textContent =
+      String(minutes)
+        .padStart(
+          2,
+          "0"
+        ) +
+      ":" +
+      String(remaining)
+        .padStart(
+          2,
+          "0"
+        );
 
-let box =
-document.getElementById("history");
+  }
 
-if(!storico.length){
 
-box.innerHTML =
-'<div class="info">Nessuna conversazione registrata.</div>';
+  function beginUi() {
 
-return;
+    running =
+      true;
 
-}
 
-box.innerHTML = "";
+    startedAt =
+      Date.now();
 
-storico
-.slice(0,10)
-.forEach(item => {
 
-let div =
-document.createElement("div");
+    finalText =
+      "";
 
-div.className =
-"item";
 
-div.innerHTML =
+    interimText =
+      "";
 
-"<div>" +
 
-"<b>Conversazione</b>" +
+    startBtn.disabled =
+      true;
 
-"<small>" +
 
-item.data +
+    stopBtn.disabled =
+      false;
 
-" · " +
 
-item.parole +
+    setStatus(
+      "In ascolto…",
+      true
+    );
 
-" parole · " +
 
-item.qualita +
+    updateStats();
 
-"%</small>" +
 
-"</div>" +
+    updateTime();
 
-"<div class='gain'>+" +
 
-Number(item.reward)
-.toFixed(3) +
+    timer =
+      setInterval(
+        updateTime,
+        250
+      );
 
-" P</div>";
+  }
 
-box.appendChild(div);
 
-});
+  function finishUi() {
 
-}
+    if (!running) {
+      return;
+    }
 
 
-if(SpeechRecognition){
+    running =
+      false;
 
-recognition =
-new SpeechRecognition();
 
-recognition.lang =
-"it-IT";
+    clearInterval(timer);
 
-recognition.continuous =
-true;
 
-recognition.interimResults =
-true;
+    timer =
+      null;
 
 
-recognition.onresult =
-function(event){
+    startBtn.disabled =
+      false;
 
-testoTemporaneo = "";
 
-for(
-let i =
-event.resultIndex;
+    stopBtn.disabled =
+      true;
 
-i <
-event.results.length;
 
-i++
-){
+    updateTime();
 
-let testo =
-event.results[i][0]
-.transcript;
 
-if(
-event.results[i]
-.isFinal
-){
+    updateStats();
 
-testoFinale +=
-" " +
-testo;
 
-}else{
+    const seconds =
+      Math.max(
+        1,
+        Math.floor(
+          (
+            Date.now() -
+            startedAt
+          ) / 1000
+        )
+      );
 
-testoTemporaneo +=
-" " +
-testo;
 
-}
+    const wordCount =
+      normalizeWords(
+        finalText
+      ).length;
 
-}
 
-mostraTesto();
+    const uniqueCount =
+      new Set(
+        normalizeWords(
+          finalText
+        )
+      ).size;
 
-};
 
+    const reward =
+      Math.max(
+        0,
 
-recognition.onerror =
-function(event){
+        (
+          seconds *
+          0.00005
+        ) +
 
-statusText.textContent =
-"Errore microfono: " +
-event.error;
+        (
+          wordCount *
+          0.00015
+        ) +
 
-ascolto = false;
+        (
+          uniqueCount *
+          0.00008
+        )
+      );
 
-clearInterval(timer);
 
-startBtn.disabled =
-false;
+    balance +=
+      reward;
 
-stopBtn.disabled =
-true;
 
-status.classList
-.remove("live");
+    localStorage.setItem(
+      "perpetBalance",
+      String(balance)
+    );
 
-};
 
+    renderBalance();
 
-recognition.onend =
-function(){
 
-if(ascolto){
+    setStatus(
+      "Sessione terminata. Generati " +
+      reward.toFixed(3) +
+      " PERPET demo."
+    );
 
-try{
+  }
 
-recognition.start();
 
-}catch(e){}
+  window.PerpetNative = {
 
-}
+    onReady() {
 
-};
+      setStatus(
+        "Microfono autorizzato."
+      );
 
-}else{
+    },
 
-startBtn.disabled =
-true;
 
-statusText.textContent =
-"Riconoscimento vocale non disponibile.";
+    onListening() {
 
-}
+      if (!running) {
 
+        beginUi();
 
-startBtn.onclick =
-function(){
+      }
 
-testoFinale = "";
 
-testoTemporaneo = "";
+      setStatus(
+        "In ascolto…",
+        true
+      );
 
-secondi = 0;
+    },
 
-reward = 0;
 
-mostraTesto();
+    onPartial(text) {
 
-document.getElementById("tempo")
-.textContent =
-"00:00";
+      interimText =
+        text || "";
 
-try{
 
-recognition.start();
+      updateStats();
 
-ascolto = true;
+    },
 
-startBtn.disabled =
-true;
 
-stopBtn.disabled =
-false;
+    onFinal(text) {
 
-status.classList
-.add("live");
+      if (text) {
 
-statusText.textContent =
-"Ascolto in corso...";
+        finalText +=
+          (
+            finalText
+              ? " "
+              : ""
+          ) +
+          text.trim();
 
-timer =
-setInterval(
-function(){
 
-secondi++;
+        interimText =
+          "";
 
-document.getElementById("tempo")
-.textContent =
-formatTime(secondi);
 
-aggiorna();
+        updateStats();
 
-},
-1000
-);
+      }
 
-}catch(e){
+    },
 
-statusText.textContent =
-"Impossibile avviare il microfono.";
 
-}
+    onError(message) {
 
-};
+      setStatus(
+        message ||
+        "Errore del riconoscimento vocale."
+      );
 
 
-stopBtn.onclick =
-function(){
+      if (running) {
 
-ascolto = false;
+        finishUi();
 
-clearInterval(timer);
+      }
 
-try{
+    },
 
-recognition.stop();
 
-}catch(e){}
+    onStopped() {
 
-startBtn.disabled =
-false;
+      finishUi();
 
-stopBtn.disabled =
-true;
+    }
 
-status.classList
-.remove("live");
+  };
 
-statusText.textContent =
-"Sessione terminata";
 
-testoTemporaneo = "";
+  function startBrowserSpeech() {
 
-mostraTesto();
+    const SpeechRecognition =
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
 
-};
 
+    if (!SpeechRecognition) {
 
-mintBtn.onclick =
-function(){
+      setStatus(
+        "Riconoscimento vocale non disponibile in questo browser."
+      );
 
-if(
-ascolto ||
-reward <= 0
-)
-return;
+      return;
 
+    }
 
-let parole =
-paroleDaTesto(
-testoFinale
-);
 
+    browserRecognition =
+      new SpeechRecognition();
 
-let numeroUniche =
-new Set(parole).size;
 
+    browserRecognition.lang =
+      "it-IT";
 
-let diversita =
-parole.length
-? numeroUniche /
-parole.length
-: 0;
 
+    browserRecognition.continuous =
+      true;
 
-let scoreParole =
-Math.min(
-1,
-parole.length / 120
-);
 
+    browserRecognition.interimResults =
+      true;
 
-let scoreDiversita =
-Math.min(
-1,
-diversita / 0.65
-);
 
+    browserRecognition.onstart =
+      () => {
 
-let scoreTempo =
-Math.min(
-1,
-secondi / 120
-);
+        beginUi();
 
+      };
 
-let qualita =
-Math.round(
 
-(scoreParole * 45)
+    browserRecognition.onresult =
+      event => {
 
-+
+        interimText =
+          "";
 
-(scoreDiversita * 40)
 
-+
+        for (
+          let i =
+            event.resultIndex;
 
-(scoreTempo * 15)
+          i <
+          event.results.length;
 
-);
+          i++
+        ) {
 
+          const text =
+            event.results[i][0]
+              .transcript;
 
-saldo += reward;
 
+          if (
+            event.results[i]
+              .isFinal
+          ) {
 
-storico.unshift({
+            finalText +=
+              (
+                finalText
+                  ? " "
+                  : ""
+              ) +
+              text.trim();
 
-data:
-new Date()
-.toLocaleString("it-IT"),
+          }
+          else {
 
-parole:
-parole.length,
+            interimText +=
+              text;
 
-qualita:
-qualita,
+          }
 
-reward:
-reward
+        }
 
-});
 
+        updateStats();
 
-localStorage.setItem(
-"perpet_balance",
-saldo
-);
+      };
 
 
-localStorage.setItem(
-"perpet_history",
-JSON.stringify(storico)
-);
+    browserRecognition.onerror =
+      event => {
 
+        window.PerpetNative
+          .onError(
+            "Errore microfono: " +
+            event.error
+          );
 
-document.getElementById("saldo")
-.textContent =
-saldo.toFixed(3);
+      };
 
 
-statusText.textContent =
-"Generati " +
-reward.toFixed(3) +
-" PERPET";
+    browserRecognition.onend =
+      () => {
 
+        if (running) {
 
-reward = 0;
+          finishUi();
 
+        }
 
-document.getElementById("reward")
-.textContent =
-"0.000";
+      };
 
 
-mintBtn.disabled =
-true;
+    try {
 
+      browserRecognition.start();
 
-mostraStorico();
+    }
+    catch (error) {
 
-};
+      setStatus(
+        "Impossibile avviare il riconoscimento vocale."
+      );
 
+    }
 
-mostraStorico();
+  }
+
+
+  startBtn.addEventListener(
+    "click",
+    () => {
+
+      if (
+        window.AndroidSpeech &&
+        typeof window.AndroidSpeech.start ===
+          "function"
+      ) {
+
+        setStatus(
+          "Richiesta microfono…"
+        );
+
+
+        window.AndroidSpeech.start();
+
+      }
+      else {
+
+        startBrowserSpeech();
+
+      }
+
+    }
+  );
+
+
+  stopBtn.addEventListener(
+    "click",
+    () => {
+
+      if (
+        window.AndroidSpeech &&
+        typeof window.AndroidSpeech.stop ===
+          "function"
+      ) {
+
+        window.AndroidSpeech.stop();
+
+      }
+      else if (
+        browserRecognition
+      ) {
+
+        try {
+
+          browserRecognition.stop();
+
+        }
+        catch (error) {
+
+        }
+
+      }
+
+
+      finishUi();
+
+    }
+  );
+
+
+  $("resetBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        balance =
+          0;
+
+
+        localStorage.setItem(
+          "perpetBalance",
+          "0"
+        );
+
+
+        renderBalance();
+
+
+        setStatus(
+          "Saldo demo azzerato."
+        );
+
+      }
+    );
+
+})();
 
 </script>
 
