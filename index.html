@@ -1,1254 +1,2278 @@
 <!doctype html>
 <html lang="it">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#061a33">
-  <title>PERPET - Proof of Conversation</title>
-
-  <style>
-    :root {
-      --bg: #061a33;
-      --bg2: #0b3159;
-      --panel: #0b2a4a;
-      --panel2: #0c3a66;
-      --gold: #e1b85a;
-      --gold2: #f2d37b;
-      --text: #f5f7fb;
-      --muted: #b9cadb;
-      --line: #2b5f89;
-      --ok: #65d28a;
-      --danger: #ff7b7b;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      background:
-        radial-gradient(
-          circle at 20% 0%,
-          rgba(24, 91, 146, 0.30),
-          transparent 35%
-        ),
-        linear-gradient(
-          180deg,
-          var(--bg2),
-          var(--bg)
-        );
-
-      font-family:
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-    }
-
-    .wrap {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 22px 18px 40px;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 8px 0 22px;
-      border-bottom: 1px solid rgba(225, 184, 90, 0.25);
-    }
-
-    .coin {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      border: 3px solid var(--gold);
-
-      display: grid;
-      place-items: center;
-
-      font-family: Georgia, serif;
-      font-size: 38px;
-      font-weight: 800;
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#061a33"
+    >
+
+    <title>PERPET - Proof of Conversation</title>
+
+    <style>
+        :root {
+            --bg: #061a33;
+            --bg2: #0b3159;
+            --panel: #0b2a4a;
+            --panel2: #0c3a66;
+
+            --gold: #e1b05a;
+            --gold2: #f2d37b;
+
+            --text: #f5f7fb;
+            --muted: #b9cadb;
+
+            --line: #2b5f89;
+
+            --ok: #65d28a;
+            --danger: #ff7b7b;
+            --info: #70b8ff;
+
+            --shadow:
+                0 18px 50px rgba(0, 0, 0, 0.28);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            color: var(--text);
+
+            background:
+                radial-gradient(
+                    circle at 20% 0%,
+                    rgba(24, 91, 146, 0.34),
+                    transparent 34%
+                ),
+                linear-gradient(
+                    180deg,
+                    var(--bg2),
+                    var(--bg)
+                );
+
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+        }
 
-      color: var(--gold2);
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .wrap {
+            width: min(760px, 100%);
+            margin: 0 auto;
+            padding:
+                calc(18px + env(safe-area-inset-top))
+                18px
+                calc(38px + env(safe-area-inset-bottom));
+        }
 
-      box-shadow:
-        inset 0 0 0 5px rgba(225, 184, 90, 0.12);
-    }
+        header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
 
-    h1 {
-      margin: 0;
+            padding: 8px 0 22px;
 
-      font-family: Georgia, serif;
+            border-bottom:
+                1px solid rgba(225, 176, 90, 0.25);
+        }
 
-      color: var(--gold2);
+        .coin {
+            flex: 0 0 auto;
 
-      letter-spacing: 0.08em;
+            width: 68px;
+            height: 68px;
 
-      font-size: clamp(34px, 8vw, 54px);
-    }
+            display: grid;
+            place-items: center;
 
-    .sub {
-      color: var(--muted);
+            border-radius: 50%;
 
-      letter-spacing: 0.22em;
+            border:
+                3px solid var(--gold);
 
-      font-size: 13px;
-    }
+            color: var(--gold2);
 
-    .card {
-      margin-top: 20px;
+            font-family:
+                Georgia,
+                serif;
 
-      padding: 22px;
+            font-size: 38px;
+            font-weight: 800;
 
-      border: 1px solid var(--line);
-      border-radius: 24px;
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(225, 176, 90, 0.13),
+                    transparent 70%
+                );
 
-      background:
-        linear-gradient(
-          180deg,
-          rgba(13, 55, 94, 0.92),
-          rgba(7, 34, 61, 0.94)
-        );
+            box-shadow:
+                inset 0 0 6px rgba(225, 176, 90, 0.18),
+                0 0 26px rgba(225, 176, 90, 0.10);
+        }
 
-      box-shadow:
-        0 16px 40px rgba(0, 0, 0, 0.18);
-    }
+        .brand {
+            min-width: 0;
+        }
 
-    h2 {
-      margin: 0 0 12px;
+        .brand h1 {
+            margin: 0;
 
-      font-family: Georgia, serif;
+            color: var(--gold2);
 
-      color: var(--gold2);
+            letter-spacing: 0.08em;
 
-      font-size: 30px;
-    }
+            font-size:
+                clamp(27px, 7vw, 38px);
+        }
 
-    p {
-      color: var(--muted);
+        .brand p {
+            margin: 3px 0 0;
 
-      line-height: 1.55;
+            color: var(--muted);
 
-      margin: 8px 0 16px;
-    }
+            font-size: 13px;
+            letter-spacing: 0.07em;
 
-    .balance {
-      margin-top: 16px;
+            text-transform: uppercase;
+        }
 
-      padding: 22px;
+        .card {
+            margin-top: 20px;
+            padding: 20px;
 
-      border-radius: 22px;
+            border:
+                1px solid rgba(112, 184, 255, 0.20);
 
-      background:
-        linear-gradient(
-          135deg,
-          #10679f,
-          #1d7db8
-        );
+            border-radius: 22px;
 
-      border:
-        1px solid rgba(255, 255, 255, 0.2);
-    }
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(12, 58, 102, 0.90),
+                    rgba(7, 35, 62, 0.94)
+                );
 
-    .label {
-      color: #d7e6f2;
+            box-shadow: var(--shadow);
+        }
 
-      letter-spacing: 0.15em;
+        .card-title {
+            margin: 0 0 5px;
 
-      font-size: 12px;
+            color: var(--gold2);
 
-      text-transform: uppercase;
-    }
+            font-size: 20px;
+            font-weight: 800;
+        }
 
-    .amount {
-      display: flex;
+        .card-subtitle {
+            margin: 0;
 
-      align-items: baseline;
+            color: var(--muted);
 
-      gap: 12px;
+            line-height: 1.45;
+            font-size: 14px;
+        }
 
-      margin-top: 8px;
-    }
+        .hidden {
+            display: none !important;
+        }
 
-    .amount strong {
-      font-size: 54px;
+        .auth-grid {
+            display: grid;
+            gap: 12px;
 
-      font-weight: 500;
-    }
+            margin-top: 18px;
+        }
 
-    .amount span {
-      color: var(--gold2);
+        .field {
+            display: grid;
+            gap: 7px;
+        }
 
-      font-weight: 800;
-    }
+        .field label {
+            color: var(--muted);
 
-    button {
-      width: 100%;
+            font-size: 13px;
+            font-weight: 700;
+        }
 
-      border: 0;
+        .field input {
+            width: 100%;
 
-      border-radius: 22px;
+            padding: 14px 15px;
 
-      padding: 20px 18px;
+            border-radius: 14px;
 
-      margin-top: 14px;
+            border:
+                1px solid rgba(112, 184, 255, 0.25);
 
-      font-size: 21px;
+            outline: none;
 
-      font-weight: 800;
+            color: var(--text);
 
-      letter-spacing: 0.02em;
+            background:
+                rgba(4, 24, 44, 0.72);
+        }
 
-      cursor: pointer;
-    }
+        .field input:focus {
+            border-color: var(--gold);
+        }
 
-    #startBtn {
-      background:
-        linear-gradient(
-          90deg,
-          var(--gold),
-          var(--gold2)
-        );
+        .actions {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
 
-      color: #17324b;
-    }
+            gap: 10px;
 
-    #stopBtn {
-      background: #183f64;
+            margin-top: 15px;
+        }
 
-      color: white;
+        .btn {
+            min-height: 48px;
 
-      border:
-        1px solid #356991;
-    }
+            padding: 12px 16px;
 
-    #stopBtn:disabled {
-      opacity: 0.45;
-    }
+            border: 0;
+            border-radius: 14px;
 
-    .status {
-      margin-top: 16px;
+            font-weight: 850;
 
-      padding: 14px 16px;
+            transition:
+                transform 0.12s ease,
+                opacity 0.12s ease;
+        }
 
-      border-radius: 16px;
+        .btn:active {
+            transform: scale(0.985);
+        }
 
-      background: #04192f;
+        .btn:disabled {
+            cursor: default;
+            opacity: 0.55;
+        }
 
-      border:
-        1px solid var(--line);
+        .btn-primary {
+            color: #091728;
 
-      display: flex;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--gold),
+                    var(--gold2)
+                );
+        }
 
-      align-items: center;
+        .btn-secondary {
+            color: var(--text);
 
-      gap: 10px;
-    }
+            border:
+                1px solid rgba(112, 184, 255, 0.32);
 
-    .dot {
-      width: 11px;
-      height: 11px;
+            background:
+                rgba(20, 73, 116, 0.62);
+        }
 
-      border-radius: 50%;
+        .btn-danger {
+            color: #fff;
 
-      background: #90a6bb;
+            border:
+                1px solid rgba(255, 123, 123, 0.32);
 
-      flex: 0 0 auto;
-    }
+            background:
+                rgba(130, 43, 43, 0.40);
+        }
 
-    .status.live .dot {
-      background: var(--ok);
+        .message {
+            min-height: 22px;
 
-      box-shadow:
-        0 0 0 5px rgba(101, 210, 138, 0.12);
-    }
+            margin-top: 13px;
 
-    .grid {
-      display: grid;
+            color: var(--muted);
 
-      grid-template-columns:
-        1fr 1fr;
+            font-size: 13px;
+            line-height: 1.4;
+        }
 
-      gap: 14px;
+        .message.ok {
+            color: var(--ok);
+        }
 
-      margin-top: 18px;
-    }
+        .message.error {
+            color: var(--danger);
+        }
 
-    .stat {
-      padding: 18px;
+        .message.info {
+            color: var(--info);
+        }
 
-      border-radius: 20px;
+        .account-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-      background: #061d36;
+            gap: 15px;
+        }
 
-      border:
-        1px solid var(--line);
-    }
+        .account-info {
+            min-width: 0;
+        }
 
-    .stat .n {
-      font-size: 34px;
+        .account-name {
+            overflow: hidden;
 
-      margin-top: 7px;
-    }
+            color: var(--text);
 
-    #transcript {
-      margin-top: 18px;
+            font-size: 17px;
+            font-weight: 800;
 
-      min-height: 140px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-      padding: 18px;
+        .account-email {
+            overflow: hidden;
 
-      border-radius: 20px;
+            margin-top: 3px;
 
-      background: #04192f;
+            color: var(--muted);
 
-      border:
-        1px solid var(--line);
+            font-size: 13px;
 
-      color: #e8f2fa;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-      white-space: pre-wrap;
+        .wallet {
+            margin-top: 18px;
 
-      line-height: 1.55;
-    }
+            padding: 18px;
 
-    .row {
-      display: flex;
+            border-radius: 18px;
 
-      gap: 10px;
-    }
+            border:
+                1px solid rgba(225, 176, 90, 0.30);
 
-    .row button {
-      font-size: 15px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(225, 176, 90, 0.12),
+                    rgba(11, 49, 89, 0.45)
+                );
+        }
 
-      padding: 14px;
-    }
+        .wallet-label {
+            color: var(--muted);
 
-    #resetBtn {
-      background: #173a5a;
+            font-size: 13px;
+            font-weight: 700;
 
-      color: #dfeaf3;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
 
-      border:
-        1px solid #335d7d;
-    }
+        .balance {
+            margin-top: 5px;
 
-    .note {
-      font-size: 12px;
+            color: var(--gold2);
 
-      color: #91a8bd;
+            font-family:
+                Georgia,
+                serif;
 
-      text-align: center;
+            font-size:
+                clamp(31px, 9vw, 44px);
 
-      margin-top: 18px;
+            font-weight: 800;
+        }
 
-      line-height: 1.45;
-    }
+        .wallet-note {
+            margin-top: 5px;
 
-    @media (max-width: 520px) {
+            color: var(--muted);
 
-      .wrap {
-        padding: 16px 12px 30px;
-      }
+            font-size: 12px;
+        }
 
-      .card {
-        padding: 18px;
-      }
+        .proof-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
 
-      .amount strong {
-        font-size: 46px;
-      }
-    }
-  </style>
+            gap: 14px;
+        }
+
+        .status-dot {
+            flex: 0 0 auto;
+
+            width: 12px;
+            height: 12px;
+
+            margin-top: 6px;
+
+            border-radius: 50%;
+
+            background: #70869b;
+
+            box-shadow:
+                0 0 0 5px rgba(112, 134, 155, 0.12);
+        }
+
+        .status-dot.listening {
+            background: var(--ok);
+
+            box-shadow:
+                0 0 0 5px rgba(101, 210, 138, 0.13),
+                0 0 20px rgba(101, 210, 138, 0.34);
+        }
+
+        .listen-button {
+            width: 100%;
+
+            min-height: 58px;
+
+            margin-top: 20px;
+
+            border: 0;
+            border-radius: 17px;
+
+            color: #071626;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--gold),
+                    var(--gold2)
+                );
+
+            font-weight: 950;
+            font-size: 16px;
+
+            letter-spacing: 0.03em;
+        }
+
+        .listen-button.stop {
+            color: #fff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #b54141,
+                    #d86464
+                );
+        }
+
+        .status-text {
+            margin-top: 11px;
+
+            color: var(--muted);
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 10px;
+
+            margin-top: 18px;
+        }
+
+        .stat {
+            padding: 14px;
+
+            border-radius: 15px;
+
+            border:
+                1px solid rgba(112, 184, 255, 0.16);
+
+            background:
+                rgba(3, 24, 44, 0.45);
+        }
+
+        .stat-label {
+            color: var(--muted);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .stat-value {
+            margin-top: 4px;
+
+            color: var(--gold2);
+
+            font-size: 23px;
+            font-weight: 900;
+        }
+
+        .transcript {
+            min-height: 132px;
+
+            margin-top: 17px;
+            padding: 16px;
+
+            overflow-wrap: anywhere;
+
+            border-radius: 15px;
+
+            border:
+                1px solid rgba(112, 184, 255, 0.15);
+
+            color: var(--text);
+
+            background:
+                rgba(2, 20, 38, 0.55);
+
+            line-height: 1.55;
+            font-size: 14px;
+        }
+
+        .transcript.placeholder {
+            color: #8298ab;
+        }
+
+        .partial {
+            opacity: 0.65;
+            font-style: italic;
+        }
+
+        .verification-box {
+            margin-top: 17px;
+            padding: 15px;
+
+            border-radius: 15px;
+
+            border:
+                1px solid rgba(225, 176, 90, 0.22);
+
+            background:
+                rgba(225, 176, 90, 0.06);
+        }
+
+        .verification-title {
+            color: var(--gold2);
+
+            font-weight: 850;
+        }
+
+        .verification-text {
+            margin-top: 5px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        footer {
+            margin-top: 22px;
+
+            color: #7f94a7;
+
+            text-align: center;
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        @media (min-width: 600px) {
+            .stats {
+                grid-template-columns:
+                    repeat(4, minmax(0, 1fr));
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="wrap">
 
-  <header>
+    <header>
+        <div class="coin">P</div>
 
-    <div class="coin">
-      P
-    </div>
+        <div class="brand">
+            <h1>PERPET</h1>
 
-    <div>
+            <p>
+                Proof of Conversation
+            </p>
+        </div>
+    </header>
 
-      <h1>
-        PERPET
-      </h1>
+    <!-- ===================================================
+         AUTENTICAZIONE
+    ==================================================== -->
 
-      <div class="sub">
-        PROOF OF CONVERSATION
-      </div>
-
-    </div>
-
-  </header>
-
-
-  <section class="card">
-
-    <h2>
-      Perpet Wallet
-    </h2>
-
-    <p>
-      Parla delle tue passioni.
-      La sessione valuta durata,
-      quantità di parole
-      e varietà lessicale.
-    </p>
-
-    <div class="balance">
-
-      <div class="label">
-        Saldo disponibile
-      </div>
-
-      <div class="amount">
-
-        <strong id="balance">
-          0.000
-        </strong>
-
-        <span>
-          PERPET
-        </span>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <section class="card">
-
-    <h2>
-      Proof of Conversation
-    </h2>
-
-    <p>
-      Avvia una sessione
-      e parla liberamente.
-      Su Android l'app usa
-      il riconoscimento vocale nativo;
-      nel browser usa
-      il riconoscimento vocale
-      disponibile sul dispositivo.
-    </p>
-
-
-    <button id="startBtn">
-      🎙️ INIZIA A PARLARE
-    </button>
-
-
-    <button
-      id="stopBtn"
-      disabled
+    <section
+        id="authCard"
+        class="card"
     >
-      ■ TERMINA SESSIONE
-    </button>
+        <h2 class="card-title">
+            Account PERPET
+        </h2>
 
+        <p class="card-subtitle">
+            Crea il tuo account oppure accedi per collegare
+            il wallet PERPET a un'identità reale.
+        </p>
 
-    <div
-      id="status"
-      class="status"
+        <div class="auth-grid">
+
+            <div class="field">
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    id="username"
+                    type="text"
+                    autocomplete="username"
+                    maxlength="32"
+                    placeholder="Il tuo nome PERPET"
+                >
+            </div>
+
+            <div class="field">
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    autocomplete="email"
+                    placeholder="nome@esempio.it"
+                >
+            </div>
+
+            <div class="field">
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    autocomplete="current-password"
+                    minlength="6"
+                    placeholder="Minimo 6 caratteri"
+                >
+            </div>
+
+        </div>
+
+        <div class="actions">
+
+            <button
+                id="signupBtn"
+                class="btn btn-primary"
+                type="button"
+            >
+                CREA ACCOUNT
+            </button>
+
+            <button
+                id="loginBtn"
+                class="btn btn-secondary"
+                type="button"
+            >
+                ACCEDI
+            </button>
+
+        </div>
+
+        <div
+            id="authMessage"
+            class="message"
+        ></div>
+    </section>
+
+    <!-- ===================================================
+         ACCOUNT / WALLET
+    ==================================================== -->
+
+    <section
+        id="accountCard"
+        class="card hidden"
     >
 
-      <span class="dot"></span>
+        <div class="account-row">
 
-      <span id="statusText">
-        Pronto
-      </span>
+            <div class="account-info">
 
-    </div>
+                <div
+                    id="accountName"
+                    class="account-name"
+                >
+                    Utente PERPET
+                </div>
 
+                <div
+                    id="accountEmail"
+                    class="account-email"
+                ></div>
 
-    <div class="grid">
+            </div>
 
-      <div class="stat">
+            <button
+                id="logoutBtn"
+                class="btn btn-danger"
+                type="button"
+            >
+                Esci
+            </button>
 
-        <div class="label">
-          Tempo
+        </div>
+
+        <div class="wallet">
+
+            <div class="wallet-label">
+                Perpet Wallet
+            </div>
+
+            <div
+                id="balance"
+                class="balance"
+            >
+                0.000 PERPET
+            </div>
+
+            <div class="wallet-note">
+                Saldo associato al tuo account Supabase.
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================
+         PROOF OF CONVERSATION
+    ==================================================== -->
+
+    <section
+        id="proofCard"
+        class="card hidden"
+    >
+
+        <div class="proof-header">
+
+            <div>
+                <h2 class="card-title">
+                    Proof of Conversation
+                </h2>
+
+                <p class="card-subtitle">
+                    Analizza una sessione vocale e ne calcola
+                    le metriche linguistiche.
+                </p>
+            </div>
+
+            <div
+                id="statusDot"
+                class="status-dot"
+            ></div>
+
+        </div>
+
+        <button
+            id="listenBtn"
+            class="listen-button"
+            type="button"
+        >
+            INIZIA A PARLARE
+        </button>
+
+        <div
+            id="statusText"
+            class="status-text"
+        >
+            Pronto.
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-label">
+                    Tempo
+                </div>
+
+                <div
+                    id="timeStat"
+                    class="stat-value"
+                >
+                    0:00
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-label">
+                    Parole
+                </div>
+
+                <div
+                    id="wordsStat"
+                    class="stat-value"
+                >
+                    0
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-label">
+                    Uniche
+                </div>
+
+                <div
+                    id="uniqueStat"
+                    class="stat-value"
+                >
+                    0
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-label">
+                    Qualità
+                </div>
+
+                <div
+                    id="qualityStat"
+                    class="stat-value"
+                >
+                    0
+                </div>
+            </div>
+
         </div>
 
         <div
-          class="n"
-          id="time"
+            id="transcript"
+            class="transcript placeholder"
         >
-          00:00
+            La trascrizione della conversazione apparirà qui.
         </div>
 
-      </div>
+        <div class="verification-box">
 
+            <div class="verification-title">
+                Modalità verificata
+            </div>
 
-      <div class="stat">
+            <div class="verification-text">
+                Il wallet reale non viene incrementato dal
+                browser. La sessione viene analizzata, ma
+                l'emissione di PERPET sarà affidata al motore
+                server-side che implementeremo nel prossimo
+                passaggio.
+            </div>
 
-        <div class="label">
-          Parole
         </div>
 
-        <div
-          class="n"
-          id="words"
-        >
-          0
-        </div>
+    </section>
 
-      </div>
-
-
-      <div class="stat">
-
-        <div class="label">
-          Parole uniche
-        </div>
-
-        <div
-          class="n"
-          id="unique"
-        >
-          0
-        </div>
-
-      </div>
-
-
-      <div class="stat">
-
-        <div class="label">
-          Qualità
-        </div>
-
-        <div
-          class="n"
-          id="quality"
-        >
-          0%
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div id="transcript">
-      La trascrizione della tua voce apparirà qui…
-    </div>
-
-
-    <div class="row">
-
-      <button id="resetBtn">
-        Azzera saldo demo
-      </button>
-
-    </div>
-
-
-    <div class="note">
-
-      PERPET in questa versione
-      è un saldo dimostrativo
-      memorizzato sul dispositivo
-      e non rappresenta
-      una criptovaluta
-      con valore monetario reale.
-
-    </div>
-
-  </section>
+    <footer>
+        PERPET · Proof of Conversation<br>
+        Versione account/database
+    </footer>
 
 </div>
 
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
 
 <script>
 
-(() => {
-
-  const $ =
-    id =>
-      document.getElementById(id);
-
-
-  const startBtn =
-    $("startBtn");
-
-
-  const stopBtn =
-    $("stopBtn");
-
-
-  const status =
-    $("status");
-
-
-  const statusText =
-    $("statusText");
-
-
-  const transcriptEl =
-    $("transcript");
-
-
-  const wordsEl =
-    $("words");
-
-
-  const uniqueEl =
-    $("unique");
-
-
-  const qualityEl =
-    $("quality");
-
-
-  const timeEl =
-    $("time");
-
-
-  const balanceEl =
-    $("balance");
-
-
-  let running = false;
-
-
-  let startedAt = 0;
-
-
-  let timer = null;
-
-
-  let finalText = "";
-
-
-  let interimText = "";
-
-
-  let browserRecognition = null;
-
-
-  let balance =
-    Number(
-      localStorage.getItem(
-        "perpetBalance"
-      ) || "0"
-    );
-
-
-  function renderBalance() {
-
-    balanceEl.textContent =
-      balance.toFixed(3);
-
-  }
-
-
-  renderBalance();
-
-
-  function setStatus(
-    text,
-    live = false
-  ) {
-
-    statusText.textContent =
-      text;
-
-
-    status.classList.toggle(
-      "live",
-      !!live
-    );
-
-  }
-
-
-  function normalizeWords(text) {
-
-    return (
-      text
-        .toLowerCase()
-        .match(
-          /[a-zà-öø-ÿ0-9']+/gi
-        ) || []
-    ).filter(Boolean);
-
-  }
-
-
-  function updateStats() {
-
-    const all =
-      (
-        finalText +
-        " " +
-        interimText
-      ).trim();
-
-
-    const arr =
-      normalizeWords(all);
-
-
-    const uniq =
-      new Set(arr);
-
-
-    wordsEl.textContent =
-      arr.length;
-
-
-    uniqueEl.textContent =
-      uniq.size;
-
-
-    const lexical =
-      arr.length
-        ? uniq.size / arr.length
-        : 0;
-
-
-    const quality =
-      Math.min(
-        100,
-        Math.round(
-          lexical * 70 +
-          (
-            Math.min(
-              arr.length,
-              120
-            ) / 120
-          ) * 30
-        )
-      );
-
-
-    qualityEl.textContent =
-      quality + "%";
-
-
-    transcriptEl.textContent =
-      all ||
-      "La trascrizione della tua voce apparirà qui…";
-
-  }
-
-
-  function updateTime() {
-
-    if (!running) {
-      return;
-    }
-
-
-    const seconds =
-      Math.floor(
-        (
-          Date.now() -
-          startedAt
-        ) / 1000
-      );
-
-
-    const minutes =
-      Math.floor(
-        seconds / 60
-      );
-
-
-    const remaining =
-      seconds % 60;
-
-
-    timeEl.textContent =
-      String(minutes)
-        .padStart(
-          2,
-          "0"
-        ) +
-      ":" +
-      String(remaining)
-        .padStart(
-          2,
-          "0"
+    // =====================================================
+    // SUPABASE
+    // =====================================================
+
+    const SUPABASE_URL =
+        "https://ntsevmeeebfmwtahdtcc.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+        "sb_publishable_IuXo8EAKGIrYYVpfwz0TqA_CGtBRwbU";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY,
+            {
+                auth: {
+                    persistSession: true,
+                    autoRefreshToken: true,
+                    detectSessionInUrl: true
+                }
+            }
         );
 
-  }
+
+    // =====================================================
+    // DOM
+    // =====================================================
+
+    const authCard =
+        document.getElementById("authCard");
+
+    const accountCard =
+        document.getElementById("accountCard");
+
+    const proofCard =
+        document.getElementById("proofCard");
+
+    const usernameInput =
+        document.getElementById("username");
+
+    const emailInput =
+        document.getElementById("email");
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const signupBtn =
+        document.getElementById("signupBtn");
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    const authMessage =
+        document.getElementById("authMessage");
+
+    const accountName =
+        document.getElementById("accountName");
+
+    const accountEmail =
+        document.getElementById("accountEmail");
+
+    const balanceElement =
+        document.getElementById("balance");
+
+    const listenBtn =
+        document.getElementById("listenBtn");
+
+    const statusText =
+        document.getElementById("statusText");
+
+    const statusDot =
+        document.getElementById("statusDot");
+
+    const timeStat =
+        document.getElementById("timeStat");
+
+    const wordsStat =
+        document.getElementById("wordsStat");
+
+    const uniqueStat =
+        document.getElementById("uniqueStat");
+
+    const qualityStat =
+        document.getElementById("qualityStat");
+
+    const transcript =
+        document.getElementById("transcript");
 
 
-  function beginUi() {
+    // =====================================================
+    // STATO AUTH
+    // =====================================================
 
-    running =
-      true;
-
-
-    startedAt =
-      Date.now();
+    let currentUser = null;
 
 
-    finalText =
-      "";
+    function setAuthMessage(
+        text,
+        type = ""
+    ) {
 
+        authMessage.textContent =
+            text || "";
 
-    interimText =
-      "";
+        authMessage.className =
+            "message";
 
-
-    startBtn.disabled =
-      true;
-
-
-    stopBtn.disabled =
-      false;
-
-
-    setStatus(
-      "In ascolto…",
-      true
-    );
-
-
-    updateStats();
-
-
-    updateTime();
-
-
-    timer =
-      setInterval(
-        updateTime,
-        250
-      );
-
-  }
-
-
-  function finishUi() {
-
-    if (!running) {
-      return;
+        if (type) {
+            authMessage.classList.add(type);
+        }
     }
 
 
-    running =
-      false;
-
-
-    clearInterval(timer);
-
-
-    timer =
-      null;
-
-
-    startBtn.disabled =
-      false;
-
-
-    stopBtn.disabled =
-      true;
-
-
-    updateTime();
-
-
-    updateStats();
-
-
-    const seconds =
-      Math.max(
-        1,
-        Math.floor(
-          (
-            Date.now() -
-            startedAt
-          ) / 1000
-        )
-      );
-
-
-    const wordCount =
-      normalizeWords(
-        finalText
-      ).length;
-
-
-    const uniqueCount =
-      new Set(
-        normalizeWords(
-          finalText
-        )
-      ).size;
-
-
-    const reward =
-      Math.max(
-        0,
-
-        (
-          seconds *
-          0.00005
-        ) +
-
-        (
-          wordCount *
-          0.00015
-        ) +
-
-        (
-          uniqueCount *
-          0.00008
-        )
-      );
-
-
-    balance +=
-      reward;
-
-
-    localStorage.setItem(
-      "perpetBalance",
-      String(balance)
-    );
-
-
-    renderBalance();
-
-
-    setStatus(
-      "Sessione terminata. Generati " +
-      reward.toFixed(3) +
-      " PERPET demo."
-    );
-
-  }
-
-
-  window.PerpetNative = {
-
-    onReady() {
-
-      setStatus(
-        "Microfono autorizzato."
-      );
-
-    },
-
-
-    onListening() {
-
-      if (!running) {
-
-        beginUi();
-
-      }
-
-
-      setStatus(
-        "In ascolto…",
-        true
-      );
-
-    },
-
-
-    onPartial(text) {
-
-      interimText =
-        text || "";
-
-
-      updateStats();
-
-    },
-
-
-    onFinal(text) {
-
-      if (text) {
-
-        finalText +=
-          (
-            finalText
-              ? " "
-              : ""
-          ) +
-          text.trim();
-
-
-        interimText =
-          "";
-
-
-        updateStats();
-
-      }
-
-    },
-
-
-    onError(message) {
-
-      setStatus(
-        message ||
-        "Errore del riconoscimento vocale."
-      );
-
-
-      if (running) {
-
-        finishUi();
-
-      }
-
-    },
-
-
-    onStopped() {
-
-      finishUi();
-
-    }
-
-  };
-
-
-  function startBrowserSpeech() {
-
-    const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
-
-
-    if (!SpeechRecognition) {
-
-      setStatus(
-        "Riconoscimento vocale non disponibile in questo browser."
-      );
-
-      return;
-
+    function setAuthLoading(
+        loading
+    ) {
+
+        signupBtn.disabled =
+            loading;
+
+        loginBtn.disabled =
+            loading;
     }
 
 
-    browserRecognition =
-      new SpeechRecognition();
+    function cleanEmail(
+        value
+    ) {
+
+        return String(value || "")
+            .trim()
+            .toLowerCase();
+    }
 
 
-    browserRecognition.lang =
-      "it-IT";
+    function cleanUsername(
+        value
+    ) {
+
+        return String(value || "")
+            .trim();
+    }
 
 
-    browserRecognition.continuous =
-      true;
+    // =====================================================
+    // REGISTRAZIONE
+    // =====================================================
+
+    signupBtn.addEventListener(
+        "click",
+        async () => {
+
+            const username =
+                cleanUsername(
+                    usernameInput.value
+                );
+
+            const email =
+                cleanEmail(
+                    emailInput.value
+                );
+
+            const password =
+                passwordInput.value;
+
+            if (
+                username.length < 2
+            ) {
+
+                setAuthMessage(
+                    "Inserisci uno username di almeno 2 caratteri.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (!email) {
+
+                setAuthMessage(
+                    "Inserisci un indirizzo e-mail.",
+                    "error"
+                );
+
+                return;
+            }
+
+            if (
+                password.length < 6
+            ) {
+
+                setAuthMessage(
+                    "La password deve contenere almeno 6 caratteri.",
+                    "error"
+                );
+
+                return;
+            }
+
+            setAuthLoading(true);
+
+            setAuthMessage(
+                "Creazione account in corso…",
+                "info"
+            );
+
+            try {
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient
+                        .auth
+                        .signUp({
+                            email,
+                            password,
+
+                            options: {
+
+                                data: {
+                                    username
+                                },
+
+                                emailRedirectTo:
+                                    "https://zelindo-89.github.io/perpet-app/"
+                            }
+                        });
+
+                if (error) {
+                    throw error;
+                }
+
+                if (
+                    data.session
+                ) {
+
+                    setAuthMessage(
+                        "Account creato. Accesso effettuato.",
+                        "ok"
+                    );
+
+                } else {
+
+                    setAuthMessage(
+                        "Account creato. Controlla la tua e-mail e premi il link di conferma prima di accedere.",
+                        "ok"
+                    );
+                }
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+                setAuthMessage(
+                    translateAuthError(error),
+                    "error"
+                );
+
+            } finally {
+
+                setAuthLoading(false);
+            }
+        }
+    );
 
 
-    browserRecognition.interimResults =
-      true;
+    // =====================================================
+    // LOGIN
+    // =====================================================
+
+    loginBtn.addEventListener(
+        "click",
+        async () => {
+
+            const email =
+                cleanEmail(
+                    emailInput.value
+                );
+
+            const password =
+                passwordInput.value;
+
+            if (
+                !email ||
+                !password
+            ) {
+
+                setAuthMessage(
+                    "Inserisci e-mail e password.",
+                    "error"
+                );
+
+                return;
+            }
+
+            setAuthLoading(true);
+
+            setAuthMessage(
+                "Accesso in corso…",
+                "info"
+            );
+
+            try {
+
+                const {
+                    error
+                } =
+                    await supabaseClient
+                        .auth
+                        .signInWithPassword({
+                            email,
+                            password
+                        });
+
+                if (error) {
+                    throw error;
+                }
+
+                setAuthMessage(
+                    "",
+                    ""
+                );
+
+            } catch (error) {
+
+                console.error(
+                    error
+                );
+
+                setAuthMessage(
+                    translateAuthError(error),
+                    "error"
+                );
+
+            } finally {
+
+                setAuthLoading(false);
+            }
+        }
+    );
 
 
-    browserRecognition.onstart =
-      () => {
+    // =====================================================
+    // LOGOUT
+    // =====================================================
 
-        beginUi();
+    logoutBtn.addEventListener(
+        "click",
+        async () => {
 
-      };
+            stopConversation();
+
+            await supabaseClient
+                .auth
+                .signOut();
+        }
+    );
 
 
-    browserRecognition.onresult =
-      event => {
+    // =====================================================
+    // ERRORI AUTH
+    // =====================================================
 
-        interimText =
-          "";
+    function translateAuthError(
+        error
+    ) {
 
+        const message =
+            String(
+                error?.message || ""
+            ).toLowerCase();
 
-        for (
-          let i =
-            event.resultIndex;
-
-          i <
-          event.results.length;
-
-          i++
+        if (
+            message.includes(
+                "invalid login credentials"
+            )
         ) {
 
-          const text =
-            event.results[i][0]
-              .transcript;
-
-
-          if (
-            event.results[i]
-              .isFinal
-          ) {
-
-            finalText +=
-              (
-                finalText
-                  ? " "
-                  : ""
-              ) +
-              text.trim();
-
-          }
-          else {
-
-            interimText +=
-              text;
-
-          }
-
+            return "E-mail o password non corretti.";
         }
 
+        if (
+            message.includes(
+                "email not confirmed"
+            )
+        ) {
 
-        updateStats();
-
-      };
-
-
-    browserRecognition.onerror =
-      event => {
-
-        window.PerpetNative
-          .onError(
-            "Errore microfono: " +
-            event.error
-          );
-
-      };
-
-
-    browserRecognition.onend =
-      () => {
-
-        if (running) {
-
-          finishUi();
-
+            return "Devi prima confermare l'indirizzo e-mail.";
         }
 
-      };
+        if (
+            message.includes(
+                "user already registered"
+            )
+        ) {
 
+            return "Esiste già un account con questa e-mail.";
+        }
 
-    try {
+        if (
+            message.includes(
+                "password"
+            )
+        ) {
 
-      browserRecognition.start();
+            return "La password non rispetta i requisiti richiesti.";
+        }
 
+        return (
+            error?.message ||
+            "Si è verificato un errore durante l'autenticazione."
+        );
     }
-    catch (error) {
-
-      setStatus(
-        "Impossibile avviare il riconoscimento vocale."
-      );
-
-    }
-
-  }
 
 
-  startBtn.addEventListener(
-    "click",
-    () => {
+    // =====================================================
+    // CAMBIO SESSIONE
+    // =====================================================
 
-      if (
-        window.AndroidSpeech &&
-        typeof window.AndroidSpeech.start ===
-          "function"
-      ) {
+    supabaseClient
+        .auth
+        .onAuthStateChange(
+            async (
+                event,
+                session
+            ) => {
 
-        setStatus(
-          "Richiesta microfono…"
+                currentUser =
+                    session?.user || null;
+
+                if (currentUser) {
+
+                    await showAuthenticatedUser(
+                        currentUser
+                    );
+
+                } else {
+
+                    showLoggedOut();
+                }
+            }
         );
 
 
-        window.AndroidSpeech.start();
+    async function initializeAuth() {
 
-      }
-      else {
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .auth
+                .getSession();
 
-        startBrowserSpeech();
+        if (error) {
 
-      }
+            console.error(
+                error
+            );
+        }
 
+        currentUser =
+            data?.session?.user || null;
+
+        if (currentUser) {
+
+            await showAuthenticatedUser(
+                currentUser
+            );
+
+        } else {
+
+            showLoggedOut();
+        }
     }
-  );
 
 
-  stopBtn.addEventListener(
-    "click",
-    () => {
+    // =====================================================
+    // UI ACCOUNT
+    // =====================================================
 
-      if (
-        window.AndroidSpeech &&
-        typeof window.AndroidSpeech.stop ===
-          "function"
-      ) {
+    async function showAuthenticatedUser(
+        user
+    ) {
 
-        window.AndroidSpeech.stop();
+        authCard.classList.add(
+            "hidden"
+        );
 
-      }
-      else if (
-        browserRecognition
-      ) {
+        accountCard.classList.remove(
+            "hidden"
+        );
+
+        proofCard.classList.remove(
+            "hidden"
+        );
+
+        accountEmail.textContent =
+            user.email || "";
+
+        accountName.textContent =
+            user.user_metadata?.username ||
+            "Utente PERPET";
+
+        await loadProfile(
+            user.id
+        );
+    }
+
+
+    function showLoggedOut() {
+
+        currentUser = null;
+
+        authCard.classList.remove(
+            "hidden"
+        );
+
+        accountCard.classList.add(
+            "hidden"
+        );
+
+        proofCard.classList.add(
+            "hidden"
+        );
+
+        accountName.textContent =
+            "Utente PERPET";
+
+        accountEmail.textContent =
+            "";
+
+        balanceElement.textContent =
+            "0.000 PERPET";
+    }
+
+
+    // =====================================================
+    // PROFILO E WALLET
+    // =====================================================
+
+    async function loadProfile(
+        userId
+    ) {
+
+        balanceElement.textContent =
+            "… PERPET";
 
         try {
 
-          browserRecognition.stop();
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from("profiles")
+                    .select(
+                        "username, balance, created_at"
+                    )
+                    .eq(
+                        "id",
+                        userId
+                    )
+                    .single();
 
+            if (error) {
+                throw error;
+            }
+
+            if (
+                data?.username
+            ) {
+
+                accountName.textContent =
+                    data.username;
+            }
+
+            const balance =
+                Number(
+                    data?.balance ?? 0
+                );
+
+            balanceElement.textContent =
+                balance.toFixed(3) +
+                " PERPET";
+
+        } catch (error) {
+
+            console.error(
+                "Errore caricamento profilo:",
+                error
+            );
+
+            balanceElement.textContent =
+                "0.000 PERPET";
         }
-        catch (error) {
-
-        }
-
-      }
-
-
-      finishUi();
-
     }
-  );
 
 
-  $("resetBtn")
-    .addEventListener(
-      "click",
-      () => {
+    // =====================================================
+    // PROOF OF CONVERSATION
+    // =====================================================
 
-        balance =
-          0;
+    let browserRecognition = null;
+
+    let isListening = false;
+
+    let finalTranscript = "";
+
+    let partialTranscript = "";
+
+    let sessionStartTime = null;
+
+    let timerInterval = null;
 
 
-        localStorage.setItem(
-          "perpetBalance",
-          "0"
+    function normalizeText(
+        text
+    ) {
+
+        return String(
+            text || ""
+        )
+            .replace(
+                /\s+/g,
+                " "
+            )
+            .trim();
+    }
+
+
+    function getWords(
+        text
+    ) {
+
+        const normalized =
+            normalizeText(text)
+                .toLocaleLowerCase(
+                    "it-IT"
+                );
+
+        if (!normalized) {
+            return [];
+        }
+
+        return normalized.match(
+            /[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu
+        ) || [];
+    }
+
+
+    function calculateQuality(
+        words
+    ) {
+
+        if (
+            words.length === 0
+        ) {
+            return 0;
+        }
+
+        const unique =
+            new Set(words).size;
+
+        const diversity =
+            unique /
+            words.length;
+
+        const lengthFactor =
+            Math.min(
+                words.length / 80,
+                1
+            );
+
+        const score =
+            (
+                diversity * 70
+            ) +
+            (
+                lengthFactor * 30
+            );
+
+        return Math.max(
+            0,
+            Math.min(
+                100,
+                Math.round(score)
+            )
+        );
+    }
+
+
+    function updateConversationStats() {
+
+        const fullText =
+            normalizeText(
+                finalTranscript +
+                " " +
+                partialTranscript
+            );
+
+        const words =
+            getWords(
+                fullText
+            );
+
+        const unique =
+            new Set(words).size;
+
+        const quality =
+            calculateQuality(
+                words
+            );
+
+        wordsStat.textContent =
+            String(
+                words.length
+            );
+
+        uniqueStat.textContent =
+            String(
+                unique
+            );
+
+        qualityStat.textContent =
+            String(
+                quality
+            );
+
+        updateTranscript();
+    }
+
+
+    function updateTranscript() {
+
+        const finalText =
+            normalizeText(
+                finalTranscript
+            );
+
+        const partialText =
+            normalizeText(
+                partialTranscript
+            );
+
+        if (
+            !finalText &&
+            !partialText
+        ) {
+
+            transcript.className =
+                "transcript placeholder";
+
+            transcript.textContent =
+                "La trascrizione della conversazione apparirà qui.";
+
+            return;
+        }
+
+        transcript.className =
+            "transcript";
+
+        transcript.innerHTML =
+            "";
+
+        if (finalText) {
+
+            const finalNode =
+                document.createTextNode(
+                    finalText
+                );
+
+            transcript.appendChild(
+                finalNode
+            );
+        }
+
+        if (partialText) {
+
+            if (finalText) {
+
+                transcript.appendChild(
+                    document.createTextNode(
+                        " "
+                    )
+                );
+            }
+
+            const partialSpan =
+                document.createElement(
+                    "span"
+                );
+
+            partialSpan.className =
+                "partial";
+
+            partialSpan.textContent =
+                partialText;
+
+            transcript.appendChild(
+                partialSpan
+            );
+        }
+    }
+
+
+    function resetConversation() {
+
+        finalTranscript =
+            "";
+
+        partialTranscript =
+            "";
+
+        sessionStartTime =
+            null;
+
+        timeStat.textContent =
+            "0:00";
+
+        wordsStat.textContent =
+            "0";
+
+        uniqueStat.textContent =
+            "0";
+
+        qualityStat.textContent =
+            "0";
+
+        updateTranscript();
+    }
+
+
+    function updateTimer() {
+
+        if (!sessionStartTime) {
+            return;
+        }
+
+        const elapsed =
+            Math.floor(
+                (
+                    Date.now() -
+                    sessionStartTime
+                ) / 1000
+            );
+
+        const minutes =
+            Math.floor(
+                elapsed / 60
+            );
+
+        const seconds =
+            elapsed % 60;
+
+        timeStat.textContent =
+            minutes +
+            ":" +
+            String(seconds)
+                .padStart(
+                    2,
+                    "0"
+                );
+    }
+
+
+    function startTimer() {
+
+        sessionStartTime =
+            Date.now();
+
+        clearInterval(
+            timerInterval
         );
 
+        timerInterval =
+            setInterval(
+                updateTimer,
+                500
+            );
+    }
 
-        renderBalance();
 
+    function stopTimer() {
 
-        setStatus(
-          "Saldo demo azzerato."
+        clearInterval(
+            timerInterval
         );
 
-      }
+        timerInterval =
+            null;
+
+        updateTimer();
+    }
+
+
+    // =====================================================
+    // AVVIO / STOP MICROFONO
+    // =====================================================
+
+    listenBtn.addEventListener(
+        "click",
+        () => {
+
+            if (
+                !currentUser
+            ) {
+
+                setStatus(
+                    "Devi prima accedere al tuo account."
+                );
+
+                return;
+            }
+
+            if (isListening) {
+
+                stopConversation();
+
+            } else {
+
+                startConversation();
+            }
+        }
     );
 
-})();
+
+    function startConversation() {
+
+        resetConversation();
+
+        isListening =
+            true;
+
+        listenBtn.textContent =
+            "TERMINA SESSIONE";
+
+        listenBtn.classList.add(
+            "stop"
+        );
+
+        statusDot.classList.add(
+            "listening"
+        );
+
+        startTimer();
+
+        if (
+            window.AndroidSpeech &&
+            typeof window.AndroidSpeech.start ===
+                "function"
+        ) {
+
+            setStatus(
+                "Richiesta microfono…"
+            );
+
+            window.AndroidSpeech.start();
+
+            return;
+        }
+
+        startBrowserSpeech();
+    }
+
+
+    function stopConversation() {
+
+        if (!isListening) {
+            return;
+        }
+
+        isListening =
+            false;
+
+        partialTranscript =
+            "";
+
+        listenBtn.textContent =
+            "INIZIA A PARLARE";
+
+        listenBtn.classList.remove(
+            "stop"
+        );
+
+        statusDot.classList.remove(
+            "listening"
+        );
+
+        stopTimer();
+
+        try {
+
+            if (
+                window.AndroidSpeech &&
+                typeof window.AndroidSpeech.stop ===
+                    "function"
+            ) {
+
+                window.AndroidSpeech.stop();
+            }
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+        }
+
+        try {
+
+            browserRecognition?.stop();
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+        }
+
+        updateConversationStats();
+
+        setStatus(
+            "Sessione terminata. Metriche calcolate; nessun PERPET è stato ancora accreditato."
+        );
+    }
+
+
+    // =====================================================
+    // BROWSER SPEECH RECOGNITION
+    // =====================================================
+
+    function startBrowserSpeech() {
+
+        const SpeechRecognition =
+            window.SpeechRecognition ||
+            window.webkitSpeechRecognition;
+
+        if (!SpeechRecognition) {
+
+            isListening =
+                false;
+
+            stopTimer();
+
+            listenBtn.textContent =
+                "INIZIA A PARLARE";
+
+            listenBtn.classList.remove(
+                "stop"
+            );
+
+            statusDot.classList.remove(
+                "listening"
+            );
+
+            setStatus(
+                "Il riconoscimento vocale non è disponibile in questo browser."
+            );
+
+            return;
+        }
+
+        browserRecognition =
+            new SpeechRecognition();
+
+        browserRecognition.lang =
+            "it-IT";
+
+        browserRecognition.continuous =
+            true;
+
+        browserRecognition.interimResults =
+            true;
+
+        browserRecognition.maxAlternatives =
+            1;
+
+
+        browserRecognition.onstart =
+            () => {
+
+                setStatus(
+                    "Sto ascoltando…"
+                );
+            };
+
+
+        browserRecognition.onresult =
+            event => {
+
+                let newFinal =
+                    "";
+
+                let newPartial =
+                    "";
+
+                for (
+                    let i =
+                        event.resultIndex;
+                    i <
+                        event.results.length;
+                    i++
+                ) {
+
+                    const text =
+                        event.results[i][0]
+                            .transcript;
+
+                    if (
+                        event.results[i]
+                            .isFinal
+                    ) {
+
+                        newFinal +=
+                            " " +
+                            text;
+
+                    } else {
+
+                        newPartial +=
+                            " " +
+                            text;
+                    }
+                }
+
+                if (
+                    newFinal.trim()
+                ) {
+
+                    finalTranscript =
+                        normalizeText(
+                            finalTranscript +
+                            " " +
+                            newFinal
+                        );
+                }
+
+                partialTranscript =
+                    normalizeText(
+                        newPartial
+                    );
+
+                updateConversationStats();
+            };
+
+
+        browserRecognition.onerror =
+            event => {
+
+                if (!isListening) {
+                    return;
+                }
+
+                if (
+                    event.error ===
+                        "no-speech"
+                ) {
+
+                    setStatus(
+                        "In ascolto…"
+                    );
+
+                    return;
+                }
+
+                setStatus(
+                    "Errore microfono: " +
+                    event.error
+                );
+            };
+
+
+        browserRecognition.onend =
+            () => {
+
+                if (!isListening) {
+                    return;
+                }
+
+                try {
+
+                    browserRecognition
+                        .start();
+
+                } catch (error) {
+
+                    console.error(
+                        error
+                    );
+                }
+            };
+
+
+        try {
+
+            browserRecognition.start();
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+            setStatus(
+                "Impossibile avviare il riconoscimento vocale."
+            );
+        }
+    }
+
+
+    // =====================================================
+    // ANDROID NATIVE BRIDGE
+    // =====================================================
+
+    window.PerpetNative = {
+
+        onReady() {
+
+            if (isListening) {
+
+                setStatus(
+                    "Microfono pronto."
+                );
+            }
+        },
+
+
+        onListening() {
+
+            if (!isListening) {
+                return;
+            }
+
+            setStatus(
+                "Sto ascoltando…"
+            );
+        },
+
+
+        onPartial(
+            text
+        ) {
+
+            if (!isListening) {
+                return;
+            }
+
+            partialTranscript =
+                normalizeText(
+                    text
+                );
+
+            updateConversationStats();
+        },
+
+
+        onFinal(
+            text
+        ) {
+
+            if (!isListening) {
+                return;
+            }
+
+            const cleaned =
+                normalizeText(
+                    text
+                );
+
+            if (!cleaned) {
+                return;
+            }
+
+            finalTranscript =
+                normalizeText(
+                    finalTranscript +
+                    " " +
+                    cleaned
+                );
+
+            partialTranscript =
+                "";
+
+            updateConversationStats();
+        },
+
+
+        onError(
+            message
+        ) {
+
+            if (!isListening) {
+                return;
+            }
+
+            setStatus(
+                message ||
+                "Errore del riconoscimento vocale."
+            );
+        },
+
+
+        onStopped() {
+
+            if (isListening) {
+
+                isListening =
+                    false;
+
+                stopTimer();
+
+                listenBtn.textContent =
+                    "INIZIA A PARLARE";
+
+                listenBtn.classList.remove(
+                    "stop"
+                );
+
+                statusDot.classList.remove(
+                    "listening"
+                );
+
+                partialTranscript =
+                    "";
+
+                updateConversationStats();
+            }
+        }
+    };
+
+
+    function setStatus(
+        text
+    ) {
+
+        statusText.textContent =
+            text;
+    }
+
+
+    // =====================================================
+    // AVVIO
+    // =====================================================
+
+    initializeAuth();
 
 </script>
 
